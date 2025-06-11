@@ -1,3 +1,68 @@
-# Real-Time-Air-Quality-Monitoring-System
+# ESP32 Air Quality Monitoring System
 
-Air Quality Monitoring StationThis project is an Arduino-based air quality monitoring system that measures various environmental parameters in real-time. It uses a combination of sensors to read temperature, humidity, carbon monoxide levels, general air quality, and dust concentration. The collected data is displayed on a 20x4 I2C LCD screen and can also be viewed via the Serial Monitor for debugging or data logging purposes.FeaturesReal-time Monitoring: Continuously tracks key environmental metrics.Comprehensive Sensing: Measures:Temperature (°C)Relative Humidity (%)Air Quality (raw value from MQ-135 for CO2, Smoke, Alcohol, etc.)Carbon Monoxide (raw value from MQ-7)Dust/Particulate Matter (raw value from GP2Y1014AU)Clear Display: Shows all readings simultaneously on a 20x4 character LCD.Serial Output: Prints formatted sensor data to the Serial Monitor for easy debugging and analysis.Error Handling: Includes a basic check to ensure the DHT sensor is connected and read correctly.Hardware RequiredComponentDescriptionMicrocontrollerAn ESP32 or Arduino-compatible board with at least 4 analog and 3 digital pins.DHT22 SensorFor measuring temperature and humidity.MQ-135 SensorFor general air quality (detects NH3, NOx, alcohol, smoke, CO2, etc.).MQ-7 SensorFor detecting Carbon Monoxide (CO).GP2Y1014AU SensorAn optical sensor for detecting dust particles.20x4 I2C LCDA 20-character, 4-line LCD with an I2C backpack for simple wiring.BreadboardFor creating the circuit.Jumper WiresTo connect all the components.Libraries RequiredBefore uploading the code, you need to install the following libraries in your Arduino IDE. You can find them using the Library Manager (Sketch > Include Library > Manage Libraries...).DHT sensor library by AdafruitAdafruit Unified Sensor by Adafruit (dependency for the DHT library)LiquidCrystal_I2C by Frank de BrabanderThe Wire.h library for I2C communication is included with the Arduino IDE by default.Wiring & ConnectionsMake the following connections between the sensors, the LCD, and your microcontroller. Note: This wiring is based on the pin definitions in the final.cpp file.Component PinConnect to Microcontroller PinDHT22 SensorVCC5V or 3.3VGNDGNDDATADigital Pin 4MQ-135 SensorVCC5VGNDGNDAOUTAnalog Pin 34MQ-7 SensorVCC5VGNDGNDAOUTAnalog Pin 32GP2Y1014AU Dust SensorVCC5VGNDGNDILED (LED Pin)Digital Pin 2V-OUT (Sensor Pin)Analog Pin 3520x4 I2C LCDVCC5VGNDGNDSDASDA PinSCLSCL PinSetup & InstallationConnect Hardware: Assemble the circuit according to the wiring diagram above.Install Libraries: Open the Arduino IDE and install the required libraries listed above.Check LCD Address: The code uses the I2C address 0x27 for the LCD. If your screen doesn't turn on, it might be using a different address (e.g., 0x3F). Use an "I2C Scanner" sketch to find the correct address and update the line LiquidCrystal_I2C lcd(0x27, 20, 4); if necessary.Upload Code: Open the final.cpp file in the Arduino IDE, select your board and port, and click "Upload".Monitor: Open the Serial Monitor (Tools > Serial Monitor) and set the baud rate to 115200 to see the debug output. The LCD should light up and start displaying sensor readings.Future ImprovementsSensor Calibration: The current code reads raw analog values from the MQ and Dust sensors. For more accurate and meaningful data, you could implement calibration routines or use formulas from the sensor datasheets to convert these raw values to Parts Per Million (PPM) or µg/m³.Alert System: Add a buzzer or an LED to trigger an alarm when any of the sensor readings cross a predefined safety threshold.Data Logging: Expand the project to log data to an SD card or use the ESP32's Wi-Fi capabilities to send data to an online service like ThingSpeak for visualization and long-term storage.Web Server: Host a simple web server on the ESP32 to display the air quality data on a webpage, accessible from any device on the same network.
+This project is an **Air Quality Monitoring System** built using an **ESP32** microcontroller. It integrates multiple sensors to measure **temperature**, **humidity**, **dust (PM2.5)**, and **air quality** (gases like CO and NH₃), and displays real-time data on an I2C LCD.
+
+## Features
+
+- 📡 Real-time temperature and humidity using **DHT22**
+- 🏭 Gas concentration readings from **MQ135** and **MQ7**
+- 🌫️ Dust particle measurement using **GP2Y1014AU**
+- 📟 Clear 20x4 I2C LCD Display for output
+- 📲 Serial output for debugging or further data logging
+
+## Components Used
+
+| Component        | Description                          |
+|------------------|--------------------------------------|
+| ESP32 Dev Board  | Main microcontroller                 |
+| DHT22            | Temperature and humidity sensor      |
+| MQ135            | Air quality sensor (NH₃, CO₂, etc.)  |
+| MQ7              | Carbon Monoxide sensor               |
+| GP2Y1014AU       | Optical dust sensor (PM2.5)          |
+| 20x4 I2C LCD     | Display for sensor values            |
+| Resistors, Capacitor | For dust sensor signal smoothing |
+| Breadboard & Wires | Circuit connections                |
+
+## Wiring Overview
+
+- **DHT22**: GPIO 4
+- **MQ135**: GPIO 34
+- **MQ7**: GPIO 32
+- **Dust Sensor**:
+  - LED Control: GPIO 2
+  - Analog Output: GPIO 35
+- **LCD I2C**: SDA/SCL to ESP32 I2C pins (usually GPIO 21 and 22)
+
+## How to Use
+
+1. **Upload** the `final.cpp` code to your ESP32 using Arduino IDE or PlatformIO.
+2. **Connect** all sensors and LCD as per the pin configuration.
+3. Open **Serial Monitor** at 115200 baud rate to view live data.
+4. Monitor the **20x4 LCD** for real-time environmental readings.
+
+## Installation
+
+1. Install the following libraries in Arduino IDE:
+   - `DHT sensor library by Adafruit`
+   - `Adafruit Unified Sensor`
+   - `LiquidCrystal_I2C` (or compatible)
+
+2. Upload the code and power the ESP32.
+
+## Sample Output
+- Air Quality Monitoring System
+- T: 36.5°C H: 60%
+- Air Quality : 18
+- CO Level : 90
+- Dust Level : 496
+ 
+
+## Notes
+
+- Ensure different analog sensors are connected to **separate ADC pins**.
+- Use proper **voltage dividers** or **smoothing capacitors** for dust sensor accuracy.
+- LCD I2C address might differ (try 0x27 or 0x3F).
+
+
+© 2025 Sayan Chowdhury
+
